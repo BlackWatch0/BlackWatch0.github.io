@@ -156,7 +156,7 @@
             <p class="subtitle">Electrical & Electronic Engineering · DSP · FPGA · Robotics</p>
             <div class="badges" aria-label="Quick facts">
               <span class="badge">苏州 · China</span>
-              <span class="badge">Email: <span id="email">1211713891@qq.com</span> <span class="copy" id="copyEmail" title="复制邮箱">📋</span></span>
+              <span class="badge">Email: <span id="email" data-u="a55ume" data-d="qq.com" aria-label="protected email">[点击复制显示]</span> <span class="copy" id="copyEmail" title="复制邮箱">📋</span></span>
               <span class="badge">GitHub Starters</span>
             </div>
             <div class="actions" role="group" aria-label="Primary actions">
@@ -215,7 +215,7 @@
           <div>
             <h2 class="resume-name" id="r-name">Michael Wang</h2>
             <p class="resume-title" id="r-title">Wireless Communication & DSP</p>
-            <div class="resume-meta" id="r-meta">苏州 · China · <a href="mailto:1211713891@qq.com">1211713891@qq.com</a> · <a href="https://github.com/BlackWatch0" target="_blank" rel="noopener">GitHub/BlackWatch0</a></div>
+            <div class="resume-meta" id="r-meta">苏州 · China · <span class="e" data-u="a55ume" data-d="qq.com"></span> · <a href="https://github.com/BlackWatch0" target="_blank" rel="noopener">GitHub/BlackWatch0</a></div>
           </div>
           <div class="resume-actions">
             <button class="btn" type="button" id="langBtn">中文 / EN</button>
@@ -290,7 +290,31 @@
 
       // Copy email
       document.getElementById('copyEmail').addEventListener('click', async () => {
-        const email = document.getElementById('email').textContent.trim();
+        const emailEl = document.getElementById('email');
+        const email = (emailEl.dataset.u ? `${emailEl.dataset.u}@${emailEl.dataset.d}` : emailEl.textContent.trim());
+        try {
+          await navigator.clipboard.writeText(email);
+          emailEl.textContent = email; // 显示真实邮箱
+          toast('已复制邮箱');
+        } catch(e){ toast('复制失败'); }
+      });
+
+      // Reveal emails lazily (抗爬虫：仅在用户交互后拼接)
+      function revealEmails(rootEl=document){
+        // 转换 .e 为可点击的 mailto
+        rootEl.querySelectorAll('.e').forEach(sp => {
+          const u = sp.dataset.u, d = sp.dataset.d; if(!u||!d) return;
+          const addr = `${u}@${d}`;
+          const a = document.createElement('a');
+          a.href = `mailto:${addr}`; a.textContent = addr; a.rel = 'nofollow';
+          sp.replaceWith(a);
+        });
+        const emailEl = document.getElementById('email');
+        if(emailEl && emailEl.dataset.u){ emailEl.textContent = `${emailEl.dataset.u}@${emailEl.dataset.d}`; }
+      }
+      const onceReveal = ()=>{ revealEmails(); window.removeEventListener('pointerdown', onceReveal); window.removeEventListener('keydown', onceReveal); };
+      window.addEventListener('pointerdown', onceReveal, { once:true });
+      window.addEventListener('keydown', onceReveal, { once:true });
         try { await navigator.clipboard.writeText(email); toast('已复制邮箱'); } catch(e){ toast('复制失败'); }
       });
 
@@ -333,12 +357,12 @@
         zh: {
           name: '王羽丰 Michael Wang',
           title: '无线通信与信号处理 / 数字电路',
-          meta: '苏州 · China · 1211713891@qq.com · GitHub/BlackWatch0',
+          meta: '苏州 · China · <span class="e" data-u="a55ume" data-d="qq.com"></span> · GitHub/BlackWatch0',
           sections: {
             contact: {
               title: '联系方式',
               items: [
-                '邮箱：1211713891@qq.com',
+                '邮箱：<span class="e" data-u="a55ume" data-d="qq.com"></span>',
                 'GitHub：github.com/BlackWatch0',
                 'LinkedIn：linkedin.com/in/michael-wang-830975296',
               ]
@@ -387,12 +411,12 @@
         en: {
           name: 'Michael Wang',
           title: 'Wireless Communication & Signal Processing · Digital Design',
-          meta: 'Suzhou · China · 1211713891@qq.com · GitHub/BlackWatch0',
+          meta: 'Suzhou · China · <span class="e" data-u="a55ume" data-d="qq.com"></span> · GitHub/BlackWatch0',
           sections: {
             contact: {
               title: 'Contact',
               items: [
-                'Email: 1211713891@qq.com',
+                'Email: <span class=\"e\" data-u=\"a55ume\" data-d=\"qq.com\"></span>',
                 'GitHub: github.com/BlackWatch0',
                 'LinkedIn: linkedin.com/in/michael-wang-830975296',
               ]
@@ -476,7 +500,7 @@
         const showResume = location.hash.startsWith('#/resume');
         document.getElementById('homeCard').hidden = showResume;
         document.getElementById('resumeCard').hidden = !showResume;
-        if(showResume) renderResume();
+        if(showResume){ renderResume(); }
       }
       window.addEventListener('hashchange', router);
       router();
