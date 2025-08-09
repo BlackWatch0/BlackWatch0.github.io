@@ -1,116 +1,253 @@
 <!DOCTYPE html>
-<html lang="zh">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="author" content="王羽丰">
-    <meta name="description" content="个人主页">
-    <title>王羽丰的个人主页</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<html lang="zh-CN" data-theme="auto">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Michael Wang • Home</title>
+    <meta name="description" content="Michael Wang (王羽丰) — Electrical & Electronic Engineering. DSP / FPGA / Robotics." />
+    <meta name="color-scheme" content="dark light" />
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            color: #333;
-            margin: 0;
-            padding: 0;
+      :root {
+        --bg: #0b0f17;
+        --card: rgba(255, 255, 255, 0.06);
+        --text: #e6e6e6;
+        --muted: #aab0c0;
+        --accent: #7c5cff;
+        --accent-2: #00d4ff;
+        --chip-bg: rgba(255,255,255,.08);
+        --border: rgba(255,255,255,.15);
+        --shadow: 0 10px 30px rgba(0,0,0,.35);
+      }
+      @media (prefers-color-scheme: light) {
+        :root {
+          --bg: #f7f8fc;
+          --card: rgba(255, 255, 255, 0.7);
+          --text: #111;
+          --muted: #4a5568;
+          --chip-bg: rgba(0, 0, 0, 0.06);
+          --border: rgba(0,0,0,.08);
+          --shadow: 0 10px 30px rgba(16,24,40,.12);
         }
-        header {
-            background-color: #4CAF50;
-            color: white;
-            text-align: center;
-            padding: 2rem 0;
-        }
-        header h1 {
-            margin: 0;
-            font-size: 3rem;
-        }
-        header p {
-            font-size: 1.2rem;
-        }
-        section {
-            padding: 2rem;
-            margin: 2rem 0;
-            background-color: white;
-            border-radius: 10px;
-        }
-        h2 {
-            font-size: 2rem;
-            color: #4CAF50;
-        }
-        .skills img {
-            width: 40px;
-            margin: 5px;
-        }
-        .skills {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-        }
-        .stats, .counter {
-            text-align: center;
-            font-size: 1.2rem;
-        }
-        footer {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 1rem 0;
-        }
-        footer p {
-            margin: 0;
-        }
-        footer a {
-            color: #fff;
-            text-decoration: none;
-        }
+      }
+      html[data-theme="dark"] {
+        --bg: #0b0f17;
+        --card: rgba(255, 255, 255, 0.06);
+        --text: #e6e6e6;
+        --muted: #aab0c0;
+        --chip-bg: rgba(255,255,255,.08);
+        --border: rgba(255,255,255,.15);
+        --shadow: 0 10px 30px rgba(0,0,0,.35);
+      }
+      html, body { height: 100%; }
+      body {
+        margin: 0;
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+        color: var(--text);
+        background: radial-gradient(1200px 1200px at 80% -10%, rgba(124,92,255,.25), transparent 60%),
+                    radial-gradient(900px 900px at -10% 100%, rgba(0,212,255,.25), transparent 60%),
+                    var(--bg);
+        overflow-x: hidden;
+      }
+      .bg-anim {
+        position: fixed; inset: -20vmax; pointer-events: none; filter: blur(60px); opacity: .6;
+        background: conic-gradient(from 0deg, var(--accent), var(--accent-2), #ff6ec7, var(--accent));
+        animation: spin 24s linear infinite;
+        transform-origin: 60% 40%;
+      }
+      @keyframes spin { to { transform: rotate(1turn); } }
+      .container { min-height: 100%; display: grid; place-items: center; padding: 48px 20px; }
+      .card {
+        position: relative;
+        width: min(980px, 94vw);
+        background: var(--card);
+        backdrop-filter: blur(18px) saturate(120%);
+        -webkit-backdrop-filter: blur(18px) saturate(120%);
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+      .header { display: flex; align-items: center; gap: 24px; padding: 32px 28px 0; flex-wrap: wrap; }
+      .avatar {
+        width: 88px; height: 88px; flex: 0 0 88px; border-radius: 20px; position: relative; overflow: hidden; isolation: isolate;
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        display: grid; place-items: center; color: white; font-weight: 800; font-size: 28px; letter-spacing: .5px;
+      }
+      .badges { display: flex; gap: 10px; flex-wrap: wrap; }
+      .badge { padding: 6px 10px; border-radius: 999px; font-size: 12px; background: var(--chip-bg); border: 1px solid var(--border); }
+      .title { font-size: clamp(26px, 4vw, 36px); margin: 0; }
+      .subtitle { margin: 6px 0 0; color: var(--muted); font-size: 14px; }
+      .actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 22px 0 0; }
+      .btn {
+        appearance: none; border: 1px solid var(--border); background: transparent; color: var(--text); text-decoration: none;
+        padding: 10px 16px; border-radius: 14px; font-weight: 600; display: inline-flex; align-items: center; gap: 10px; transition: transform .08s ease, background .2s ease, border-color .2s ease;
+      }
+      .btn:hover { transform: translateY(-1px); border-color: var(--accent); }
+      .btn.primary { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #fff; border-color: transparent; }
+      .btn .icon { width: 18px; height: 18px; display: inline-block; }
+
+      .divider { height: 1px; background: var(--border); margin: 24px 0; }
+      .content { padding: 0 28px 28px; }
+      .chips { display: flex; gap: 8px; flex-wrap: wrap; margin: 16px 0 0; }
+      .chip { font-size: 12px; padding: 8px 12px; border-radius: 999px; background: var(--chip-bg); border: 1px solid var(--border); }
+
+      .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px; margin-top: 22px; }
+      .feature { grid-column: span 12; border: 1px solid var(--border); border-radius: 18px; padding: 18px; background: rgba(255,255,255,.03); }
+      .feature h3 { margin: 0 0 8px; font-size: 16px; }
+      .feature p { margin: 0; color: var(--muted); font-size: 14px; }
+      @media (min-width: 760px) {
+        .feature { grid-column: span 4; }
+      }
+
+      .footer { display: flex; align-items: center; justify-content: space-between; padding: 22px 28px 28px; gap: 10px; flex-wrap: wrap; color: var(--muted); font-size: 12px; }
+      .theme-toggle { cursor: pointer; border: 1px solid var(--border); background: var(--chip-bg); border-radius: 12px; padding: 8px 12px; display: inline-flex; align-items: center; gap: 6px; }
+      .copy { cursor: pointer; }
+
+      /* Nice subtle hover glow */
+      .btn.primary:hover { box-shadow: 0 10px 20px rgba(124,92,255,.35), 0 4px 10px rgba(0,212,255,.25); }
+      .avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
     </style>
-</head>
-<body>
-    <header>
-        <h1>王羽丰</h1>
-        <p>Wireless Communication & Signal Processing | FPGA & AI Enthusiast</p>
-    </header>
-
-    <section>
-        <h2>👋 About Me</h2>
-        <p>Hi, I'm Yufeng Wang, currently pursuing a Master's in Wireless Communication and Signal Processing at the University of Bristol. I am passionate about technology, AI, and hardware design, particularly FPGA-based accelerators and digital signal processing.</p>
-        <p>Feel free to reach out to me via email: <a href="mailto:a55ume@qq.com">a55ume@qq.com</a></p>
-    </section>
-
-    <section>
-        <h2>🛠️ Technologies & Tools</h2>
-        <div class="skills">
-            <img src="https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python">
-            <img src="https://img.shields.io/badge/C%2B%2B-00599C?style=flat-square&logo=cplusplus&logoColor=white" alt="C++">
-            <img src="https://img.shields.io/badge/MATLAB-0076A8?style=flat-square&logo=matlab&logoColor=white" alt="MATLAB">
-            <img src="https://img.shields.io/badge/Verilog-3A3A3A?style=flat-square&logo=verilog&logoColor=white" alt="Verilog">
-            <img src="https://img.shields.io/badge/FPGAs-5C0000?style=flat-square&logo=python&logoColor=white" alt="FPGAs">
+  </head>
+  <body>
+    <div class="bg-anim" aria-hidden="true"></div>
+    <main class="container">
+      <section class="card" role="region" aria-label="Intro">
+        <div class="header">
+          <a class="avatar" href="https://github.com/BlackWatch0" target="_blank" rel="noopener" aria-label="GitHub 头像">
+            <img id="avatarImg" alt="Michael Wang GitHub avatar" loading="eager" decoding="async" />
+          </a>
+          <div>
+            <h1 class="title">Michael Wang <span style="opacity:.7;font-size:.7em">王羽丰</span></h1>
+            <p class="subtitle">Electrical & Electronic Engineering · DSP · FPGA · Robotics</p>
+            <div class="badges" aria-label="Quick facts">
+              <span class="badge">苏州 · China</span>
+              <span class="badge">Email: <span id="email">1211713891@qq.com</span> <span class="copy" id="copyEmail" title="复制邮箱">📋</span></span>
+              <span class="badge">GitHub Starters</span>
+            </div>
+            <div class="actions" role="group" aria-label="Primary actions">
+              <a class="btn primary" href="/root/english_resume.html" target="_blank" rel="noopener">English Resume</a>
+              <a class="btn" href="/root/chinese_resume.html" target="_blank" rel="noopener">中文简历</a>
+              <a class="btn" href="https://github.com/BlackWatch0" target="_blank" rel="noopener" aria-label="GitHub">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .5a12 12 0 0 0-3.79 23.4c.6.11.82-.26.82-.58v-2.02c-3.34.73-4.04-1.61-4.04-1.61-.55-1.4-1.35-1.77-1.35-1.77-1.1-.76.09-.74.09-.74 1.22.09 1.86 1.26 1.86 1.26 1.08 1.86 2.84 1.32 3.53 1.01.11-.79.42-1.32.77-1.63-2.67-.3-5.48-1.34-5.48-5.95 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.66 1.65.24 2.87.12 3.17.77.84 1.23 1.91 1.23 3.22 0 4.62-2.81 5.64-5.49 5.94.43.37.82 1.1.82 2.22v3.29c0 .32.22.69.83.58A12 12 0 0 0 12 .5Z"/></svg>
+                GitHub
+              </a>
+              <a class="btn" href="https://www.linkedin.com/in/michael-wang-830975296" target="_blank" rel="noopener" aria-label="LinkedIn">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5 2.5 2.5 0 0 0 4.98 3.5ZM3 9h4v12H3Zm7 0h3.8v1.64h.05A4.17 4.17 0 0 1 18 9c2.74 0 4 1.79 4 5.12V21h-4v-6.12c0-1.46-.52-2.46-1.82-2.46A1.96 1.96 0 0 0 14 14.54V21h-4Z"/></svg>
+                LinkedIn
+              </a>
+            </div>
+          </div>
         </div>
-    </section>
-  
-    <section>
-        <h2>📄 Resume</h2>
-        <p>Here are my resumes:</p>
-        <ul>
-            <li><a href="https://blackwatch0.github.io/root/english_resume.html" target="_blank">English Resume</a></li>
-            <li><a href="https://blackwatch0.github.io/root/chinese_resume.html" target="_blank">中文简历</a></li>
-        </ul>
-    </section>
-  
-    <section class="stats">
-        <h2>📈 GitHub Stats</h2>
-        <img src="https://github-readme-stats.vercel.app/api?username=blackwatch0&show_icons=true&theme=radical" alt="GitHub Stats">
-    </section>
 
-    <section class="counter">
-        <h2>🌐 Visitor Count</h2>
-        <img src="https://profile-counter.glitch.me/blackwatch0/count.svg" alt="Visitor Count">
-    </section>
+        <div class="content">
+          <div class="chips" aria-label="Skills">
+            <span class="chip">Python</span>
+            <span class="chip">C/C++</span>
+            <span class="chip">Verilog/SystemVerilog</span>
+            <span class="chip">Linux</span>
+            <span class="chip">Git</span>
+            <span class="chip">DSP</span>
+          </div>
 
-    <footer>
-        <p>👋 Connect with me: <a href="https://www.linkedin.com/in/michael-wang-830975296/" target="_blank">LinkedIn</a> | <a href="https://github.com/blackwatch0" target="_blank">GitHub</a></p>
-        <p>© 2025 王羽丰 </p>
-    </footer>
-</body>
+          <div class="divider" role="separator"></div>
+
+          <div class="grid" role="list">
+            <article class="feature" role="listitem">
+              <h3>⚙️ RoboVigor 机器人团队</h3>
+              <p>算法组成员 · 机器视觉、部署与调试 · 组织周报与新人培训。</p>
+            </article>
+            <article class="feature" role="listitem">
+              <h3>🧮 4-bit 微处理器设计</h3>
+              <p>使用 Verilog 进行指令集与处理器设计与仿真，完成小型 SoC 原型。</p>
+            </article>
+            <article class="feature" role="listitem">
+              <h3>🌿 城市绿色能源规划</h3>
+              <p>与 ARUP 合作参与 SHIPs 项目，探索城市碳中和与能源自给方案。</p>
+            </article>
+          </div>
+        </div>
+
+        <div class="footer">
+          <span>© <span id="year"></span> Michael Wang</span>
+          <div class="theme-toggle" id="themeToggle" role="button" aria-pressed="false" aria-label="切换主题">
+            <span id="themeIcon">🌗</span> <span id="themeText">跟随系统</span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      // Year
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      // Theme persistence
+      const root = document.documentElement;
+      const saved = localStorage.getItem('theme');
+      if (saved === 'dark' || saved === 'light') root.setAttribute('data-theme', saved);
+      const isDark = () => root.getAttribute('data-theme') === 'dark'
+        || (root.getAttribute('data-theme') === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+
+      const themeToggle = document.getElementById('themeToggle');
+      const themeText = document.getElementById('themeText');
+      const themeIcon = document.getElementById('themeIcon');
+      function refreshLabel(){
+        const mode = root.getAttribute('data-theme');
+        let label = '跟随系统';
+        if(mode==='dark') label = '深色模式';
+        if(mode==='light') label = '浅色模式';
+        themeText.textContent = label;
+        themeToggle.setAttribute('aria-pressed', isDark());
+        themeIcon.textContent = isDark()? '🌙' : '🌞';
+      }
+      refreshLabel();
+      themeToggle.addEventListener('click', () => {
+        const mode = root.getAttribute('data-theme');
+        const next = mode === 'auto' ? (isDark()? 'light':'dark') : (mode === 'dark' ? 'light' : (mode === 'light' ? 'auto' : 'dark'));
+        root.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+        refreshLabel();
+      });
+
+      // Copy email
+      document.getElementById('copyEmail').addEventListener('click', async () => {
+        const email = document.getElementById('email').textContent.trim();
+        try { await navigator.clipboard.writeText(email); toast('已复制邮箱'); } catch(e){ toast('复制失败'); }
+      });
+
+      // Tiny toast
+      function toast(msg){
+        const el = document.createElement('div');
+        el.textContent = msg;
+        el.style.position='fixed';
+        el.style.left='50%';
+        el.style.bottom='28px';
+        el.style.transform='translateX(-50%)';
+        el.style.padding='10px 14px';
+        el.style.borderRadius='999px';
+        el.style.background='var(--card)';
+        el.style.backdropFilter='blur(14px)';
+        el.style.border='1px solid var(--border)';
+        el.style.color='var(--text)';
+        el.style.zIndex='9999';
+        document.body.appendChild(el);
+        setTimeout(()=>{ el.style.opacity='0'; el.style.transition='opacity .4s'; },1400);
+        setTimeout(()=> el.remove(), 1850);
+      }
+          // GitHub Avatar
+      (function(){
+        const GH_USER = 'BlackWatch0';
+        const size = 176; // 与 88px 容器的 2x 视网膜清晰度匹配
+        const avatar = document.getElementById('avatarImg');
+        const url = `https://github.com/${GH_USER}.png?size=${size}`;
+        avatar.src = url;
+        avatar.addEventListener('error', () => {
+          // 如果加载失败，回退为首字母
+          const wrap = avatar.parentElement;
+          avatar.remove();
+          wrap.textContent = 'MW';
+          wrap.setAttribute('aria-label', 'Avatar fallback');
+        });
+      })();
+    </script>
+  </body>
 </html>
