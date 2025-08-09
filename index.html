@@ -286,7 +286,6 @@
         root.setAttribute('data-theme', next);
         localStorage.setItem('theme', next);
         refreshLabel();
-      });
 
       // Copy email
       document.getElementById('copyEmail').addEventListener('click', async () => {
@@ -315,7 +314,6 @@
       const onceReveal = ()=>{ revealEmails(); window.removeEventListener('pointerdown', onceReveal); window.removeEventListener('keydown', onceReveal); };
       window.addEventListener('pointerdown', onceReveal, { once:true });
       window.addEventListener('keydown', onceReveal, { once:true });
-        try { await navigator.clipboard.writeText(email); toast('已复制邮箱'); } catch(e){ toast('复制失败'); }
       });
 
       // Tiny toast
