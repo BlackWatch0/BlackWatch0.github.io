@@ -22,7 +22,532 @@
       @media (prefers-color-scheme: light) {
         :root {
           --bg: #f7f8fc;
+          --card: rgba(255, 255, 255, 0.7);<!DOCTYPE html>
+<html lang="zh-CN" data-theme="auto">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Michael Wang • Home</title>
+    <meta name="description" content="Michael Wang (王羽丰) — Electrical & Electronic Engineering. DSP / FPGA / Robotics." />
+    <meta name="color-scheme" content="dark light" />
+    <style>
+      :root {
+        --bg: #0b0f17;
+        --card: rgba(255, 255, 255, 0.06);
+        --text: #e6e6e6;
+        --muted: #aab0c0;
+        --accent: #7c5cff;
+        --accent-2: #00d4ff;
+        --chip-bg: rgba(255,255,255,.08);
+        --border: rgba(255,255,255,.15);
+        --shadow: 0 10px 30px rgba(0,0,0,.35);
+      }
+      *, *::before, *::after { box-sizing: border-box; }
+      @media (prefers-color-scheme: light) {
+        :root {
+          --bg: #f7f8fc;
           --card: rgba(255, 255, 255, 0.7);
+          --text: #111;
+          --muted: #4a5568;
+          --chip-bg: rgba(0, 0, 0, 0.06);
+          --border: rgba(0,0,0,.08);
+          --shadow: 0 10px 30px rgba(16,24,40,.12);
+        }
+      }
+      html[data-theme="dark"] {
+        --bg: #0b0f17;
+        --card: rgba(255, 255, 255, 0.06);
+        --text: #e6e6e6;
+        --muted: #aab0c0;
+        --chip-bg: rgba(255,255,255,.08);
+        --border: rgba(255,255,255,.15);
+        --shadow: 0 10px 30px rgba(0,0,0,.35);
+      }
+      html, body { height: 100%; }
+      body {
+        margin: 0;
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+        color: var(--text);
+        background: radial-gradient(1200px 1200px at 80% -10%, rgba(124,92,255,.25), transparent 60%),
+                    radial-gradient(900px 900px at -10% 100%, rgba(0,212,255,.25), transparent 60%),
+                    var(--bg);
+        overflow-x: hidden;
+      }
+      .bg-anim {
+        position: fixed; inset: -20vmax; pointer-events: none; filter: blur(60px); opacity: .6;
+        background: conic-gradient(from 0deg, var(--accent), var(--accent-2), #ff6ec7, var(--accent));
+        animation: spin 24s linear infinite;
+        transform-origin: 60% 40%;
+      }
+      @keyframes spin { to { transform: rotate(1turn); } }
+      .container { min-height: 100%; display: grid; place-items: center; padding: 48px 20px; }
+      .card {
+        position: relative;
+        width: min(980px, 94vw);
+        margin-inline: auto;
+        background: var(--card);
+        backdrop-filter: blur(18px) saturate(120%);
+        -webkit-backdrop-filter: blur(18px) saturate(120%);
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+      .header { display: flex; align-items: center; gap: 24px; padding: 32px 28px 0; flex-wrap: wrap; }
+      .avatar {
+        width: 88px; height: 88px; flex: 0 0 88px; border-radius: 20px; position: relative; overflow: hidden; isolation: isolate;
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        display: grid; place-items: center; color: white; font-weight: 800; font-size: 28px; letter-spacing: .5px;
+      }
+      .badges { display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-start; }
+      .badge { padding: 6px 10px; border-radius: 999px; font-size: 12px; background: var(--chip-bg); border: 1px solid var(--border); }
+      .title { font-size: clamp(26px, 4vw, 36px); margin: 0; }
+      .subtitle { margin: 6px 0 10px; color: var(--muted); font-size: 14px; line-height: 1.4; }
+      .actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 22px 0 0; }
+      .btn {
+        appearance: none; border: 1px solid var(--border); background: transparent; color: var(--text); text-decoration: none;
+        padding: 10px 16px; border-radius: 14px; font-weight: 600; display: inline-flex; align-items: center; gap: 10px; transition: transform .08s ease, background .2s ease, border-color .2s ease;
+      }
+      .btn:hover { transform: translateY(-1px); border-color: var(--accent); }
+      .btn.primary { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #fff; border-color: transparent; }
+      .btn .icon { width: 18px; height: 18px; display: inline-block; }
+
+      /* Make gradient buttons render cleanly, avoid right-edge hairline */
+      .btn, .btn.primary { -webkit-background-clip: padding-box; background-clip: padding-box; }
+      .resume-btn {
+        background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+        color: #fff;
+        border: 0 !important; /* remove 1px border to avoid hairline */
+        outline: none;
+        -webkit-background-clip: padding-box;
+        background-clip: padding-box;
+        will-change: transform;
+        position: relative;
+      }
+      .resume-btn:hover { box-shadow: 0 10px 20px rgba(124,92,255,.35), 0 4px 10px rgba(0,212,255,.25); transform: translateY(-1px); }
+      .resume-btn:focus-visible { outline: 2px solid rgba(124,92,255,.55); outline-offset: 2px; }
+
+      .divider { height: 1px; background: var(--border); margin: 24px 0; }
+      .content { padding: 0 28px 28px; }
+      .chips { display: flex; gap: 8px; flex-wrap: wrap; margin: 16px 0 0; }
+      .chip { font-size: 12px; padding: 8px 12px; border-radius: 999px; background: var(--chip-bg); border: 1px solid var(--border); }
+
+      .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px; margin-top: 22px; }
+      .feature { grid-column: span 12; border: 1px solid var(--border); border-radius: 18px; padding: 18px; background: rgba(255,255,255,.03); }
+      .feature h3 { margin: 0 0 8px; font-size: 16px; }
+      .feature p { margin: 0; color: var(--muted); font-size: 14px; }
+      @media (min-width: 760px) {
+        .feature { grid-column: span 4; }
+      }
+
+      .footer { display: flex; align-items: center; justify-content: space-between; padding: 22px 28px 28px; gap: 10px; flex-wrap: wrap; color: var(--muted); font-size: 12px; }
+      .theme-toggle { cursor: pointer; border: 1px solid var(--border); background: var(--chip-bg); border-radius: 12px; padding: 8px 12px; display: inline-flex; align-items: center; gap: 6px; }
+      .copy { cursor: pointer; }
+
+      /* Nice subtle hover glow */
+      .btn.primary:hover { box-shadow: 0 10px 20px rgba(124,92,255,.35), 0 4px 10px rgba(0,212,255,.25); }
+      .avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+      /* Resume Page */
+      #resumeCard { padding: 0; }
+      .resume-header {
+        display: flex; align-items: center; justify-content: space-between; gap: 16px;
+        padding: 22px 24px; border-bottom: 1px solid var(--border);
+        background: linear-gradient(180deg, rgba(255,255,255,.06), transparent);
+      }
+      .resume-name { font-size: clamp(22px, 3.4vw, 30px); margin: 0; }
+      .resume-title { margin: 4px 0 0; color: var(--muted); font-size: 14px; }
+      .resume-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+      .resume-content { padding: 18px 24px 26px; display: grid; grid-template-columns: 1fr; gap: 18px; }
+      .resume-section { border: 1px solid var(--border); border-radius: 14px; padding: 14px; background: rgba(255,255,255,.03); }
+      .resume-section h3 { margin: 0 0 10px; font-size: 15px; }
+      .resume-list { margin: 0; padding-left: 18px; color: var(--muted); }
+      .resume-list li { margin: 6px 0; }
+      .resume-meta { color: var(--muted); font-size: 12px; }
+      .resume-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+      @media (min-width: 860px){ .resume-content{ grid-template-columns: 280px 1fr; } }
+      .lang-toggle { border: 1px solid var(--border); background: var(--chip-bg); border-radius: 12px; padding: 8px 10px; display: inline-flex; align-items: center; gap: 8px; }
+      .link-like { cursor: pointer; text-decoration: underline; }
+      /* Print */
+      @media print {
+        @page { size: A4; margin: 14mm 14mm 16mm 14mm; }
+        :root{ --text:#000; --muted:#222; --border:#000; }
+        body { background: #fff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        .bg-anim, #homeCard, .theme-toggle { display: none !important; }
+        #resumeCard { box-shadow: none; border: none; }
+        .card { width: auto; border: none; border-radius: 0; box-shadow: none; }
+        .resume-header { background: none; border: none; padding: 0 0 6mm; margin: 0; border-bottom: 0.5pt solid #000; }
+        .resume-actions { display: none !important; }
+        .resume-name { font-size: 18pt; font-weight: 800; letter-spacing: .2px; }
+        .resume-title { font-size: 11pt; margin-top: 2mm; color: #000; }
+        .resume-meta { color: #000; font-size: 9.5pt; margin-top: 1.2mm; }
+        .resume-content { padding: 6mm 0 0; display: grid; grid-template-columns: 62mm 1fr; gap: 6mm; }
+        .resume-section { border: none; background: transparent; padding: 0; break-inside: avoid; }
+        .resume-section h3 { font-size: 10.5pt; margin: 0 0 2mm; font-weight: 700; letter-spacing: .6px; text-transform: uppercase; border-bottom: 0.5pt solid #000; padding-bottom: 1.5mm; }
+        .resume-list { list-style: disc; padding-left: 5mm; margin: 0; }
+        .resume-list li { line-height: 1.35; margin: 1.6mm 0; }
+        a, a:visited { color: #000; text-decoration: none; }
+        a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 9pt; }
+      }
+
+      @media (max-width: 560px){
+        .header{ justify-content: center; text-align: center; }
+        .badges, .actions { justify-content: center; }
+        .card { width: min(980px, 92vw); }
+        .container{ padding: 40px 14px; }
+      }
+      </style>
+  </head>
+  <body>
+    <div class="bg-anim" aria-hidden="true"></div>
+    <main class="container">
+      <section id="homeCard" class="card" role="region" aria-label="Intro">
+        <div class="header">
+          <a class="avatar" href="https://github.com/BlackWatch0" target="_blank" rel="noopener" aria-label="GitHub 头像">
+            <img id="avatarImg" alt="Michael Wang GitHub avatar" loading="eager" decoding="async" />
+          </a>
+          <div>
+            <h1 class="title">Michael Wang <span style="opacity:.7;font-size:.7em">王羽丰</span></h1>
+            <p class="subtitle">Electrical & Electronic Engineering · DSP · FPGA · Robotics</p>
+            <div class="badges" aria-label="Quick facts">
+              <span class="badge">苏州 · China</span>
+              <span class="badge">Email: <span id="email">a55ume@qq.com</span> <span class="copy" id="copyEmail" title="复制邮箱">📋</span></span>
+              <span class="badge">GitHub Starters</span>
+            </div>
+            <div class="actions" role="group" aria-label="Primary actions">
+              <button class="btn resume-btn" type="button" onclick="openResume('en')">English Resume</button>
+              <button class="btn resume-btn" type="button" onclick="openResume('zh')">中文简历</button>
+              <a class="btn" href="https://github.com/BlackWatch0" target="_blank" rel="noopener" aria-label="GitHub">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .5a12 12 0 0 0-3.79 23.4c.6.11.82-.26.82-.58v-2.02c-3.34.73-4.04-1.61-4.04-1.61-.55-1.4-1.35-1.77-1.35-1.77-1.1-.76.09-.74.09-.74 1.22.09 1.86 1.26 1.86 1.26 1.08 1.86 2.84 1.32 3.53 1.01.11-.79.42-1.32.77-1.63-2.67-.3-5.48-1.34-5.48-5.95 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.66 1.65.24 2.87.12 3.17.77.84 1.23 1.91 1.23 3.22 0 4.62-2.81 5.64-5.49 5.94.43.37.82 1.1.82 2.22v3.29c0 .32.22.69.83.58A12 12 0 0 0 12 .5Z"/></svg>
+                GitHub
+              </a>
+              <a class="btn" href="https://www.linkedin.com/in/michael-wang-830975296" target="_blank" rel="noopener" aria-label="LinkedIn">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5 2.5 2.5 0 0 0 4.98 3.5ZM3 9h4v12H3Zm7 0h3.8v1.64h.05A4.17 4.17 0 0 1 18 9c2.74 0 4 1.79 4 5.12V21h-4v-6.12c0-1.46-.52-2.46-1.82-2.46A1.96 1.96 0 0 0 14 14.54V21h-4Z"/></svg>
+                LinkedIn
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="content">
+          <div class="chips" aria-label="Skills">
+            <span class="chip">Python</span>
+            <span class="chip">C/C++</span>
+            <span class="chip">Verilog/SystemVerilog</span>
+            <span class="chip">Linux</span>
+            <span class="chip">Git</span>
+            <span class="chip">DSP</span>
+          </div>
+
+          <div class="divider" role="separator"></div>
+
+          <div class="grid" role="list">
+            <article class="feature" role="listitem">
+              <h3>⚙️ RoboVigor 机器人团队</h3>
+              <p>算法组成员 · 机器视觉、部署与调试 · 组织周报与新人培训。</p>
+            </article>
+            <article class="feature" role="listitem">
+              <h3>🧮 4-bit 微处理器设计</h3>
+              <p>使用 Verilog 进行指令集与处理器设计与仿真，完成小型 SoC 原型。</p>
+            </article>
+            <article class="feature" role="listitem">
+              <h3>🌿 城市绿色能源规划</h3>
+              <p>与 ARUP 合作参与 SHIPs 项目，探索城市碳中和与能源自给方案。</p>
+            </article>
+          </div>
+        </div>
+
+        <div class="footer">
+          <span>© <span id="year"></span> Michael Wang</span>
+          <div class="theme-toggle" id="themeToggle" role="button" aria-pressed="false" aria-label="切换主题">
+            <span id="themeIcon">🌗</span> <span id="themeText">跟随系统</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="resumeCard" class="card" hidden>
+        <div class="resume-header">
+          <div>
+            <h2 class="resume-name" id="r-name">Michael Wang</h2>
+            <p class="resume-title" id="r-title">Wireless Communication & DSP</p>
+            <div class="resume-meta" id="r-meta">苏州 · China · <a href="mailto:a55ume@qq.com">a55ume@qq.com</a> · <a href="https://github.com/BlackWatch0" target="_blank" rel="noopener">GitHub/BlackWatch0</a></div>
+          </div>
+          <div class="resume-actions">
+            <button class="btn" type="button" id="langBtn">中文 / EN</button>
+            <button class="btn" type="button" id="printBtn" onclick="window.print()">下载 PDF</button>
+            <button class="btn" type="button" id="backBtn" onclick="closeResume()">返回主页</button>
+          </div>
+        </div>
+        <div class="resume-content">
+          <div class="resume-grid">
+            <section class="resume-section">
+              <h3 id="r-contact-title">联系方式</h3>
+              <ul class="resume-list" id="r-contact"></ul>
+            </section>
+            <section class="resume-section">
+              <h3 id="r-skills-title">技能</h3>
+              <ul class="resume-list" id="r-skills"></ul>
+            </section>
+          </div>
+          <div class="resume-grid">
+            <section class="resume-section">
+              <h3 id="r-summary-title">简介</h3>
+              <ul class="resume-list" id="r-summary"></ul>
+            </section>
+            <section class="resume-section">
+              <h3 id="r-exp-title">经历</h3>
+              <ul class="resume-list" id="r-exp"></ul>
+            </section>
+            <section class="resume-section">
+              <h3 id="r-edu-title">教育</h3>
+              <ul class="resume-list" id="r-edu"></ul>
+            </section>
+            <section class="resume-section">
+              <h3 id="r-proj-title">项目</h3>
+              <ul class="resume-list" id="r-proj"></ul>
+            </section>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      // Year
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      // Theme persistence
+      const root = document.documentElement;
+      const saved = localStorage.getItem('theme');
+      if (saved === 'dark' || saved === 'light') root.setAttribute('data-theme', saved);
+      const isDark = () => root.getAttribute('data-theme') === 'dark'
+        || (root.getAttribute('data-theme') === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+
+      const themeToggle = document.getElementById('themeToggle');
+      const themeText = document.getElementById('themeText');
+      const themeIcon = document.getElementById('themeIcon');
+      function refreshLabel(){
+        const mode = root.getAttribute('data-theme');
+        let label = '跟随系统';
+        if(mode==='dark') label = '深色模式';
+        if(mode==='light') label = '浅色模式';
+        themeText.textContent = label;
+        themeToggle.setAttribute('aria-pressed', isDark());
+        themeIcon.textContent = isDark()? '🌙' : '🌞';
+      }
+      refreshLabel();
+      themeToggle.addEventListener('click', () => {
+        const mode = root.getAttribute('data-theme');
+        const next = mode === 'auto' ? (isDark()? 'light':'dark') : (mode === 'dark' ? 'light' : (mode === 'light' ? 'auto' : 'dark'));
+        root.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+        refreshLabel();
+      });
+      // Copy email (simple)
+      (function(){
+        const copyBtn = document.getElementById('copyEmail');
+        const emailEl = document.getElementById('email');
+        if(copyBtn && emailEl){
+          copyBtn.addEventListener('click', async ()=>{
+            const email = emailEl.textContent.trim();
+            try{ await navigator.clipboard.writeText(email); toast('已复制邮箱'); }
+            catch(e){ toast('复制失败'); }
+          });
+        }
+      })();
+
+      // Tiny toast
+      function toast(msg){
+        const el = document.createElement('div');
+        el.textContent = msg;
+        el.style.position='fixed';
+        el.style.left='50%';
+        el.style.bottom='28px';
+        el.style.transform='translateX(-50%)';
+        el.style.padding='10px 14px';
+        el.style.borderRadius='999px';
+        el.style.background='var(--card)';
+        el.style.backdropFilter='blur(14px)';
+        el.style.border='1px solid var(--border)';
+        el.style.color='var(--text)';
+        el.style.zIndex='9999';
+        document.body.appendChild(el);
+        setTimeout(()=>{ el.style.opacity='0'; el.style.transition='opacity .4s'; },1400);
+        setTimeout(()=> el.remove(), 1850);
+      }
+          // GitHub Avatar
+      (function(){
+        const GH_USER = 'BlackWatch0';
+        const size = 176; // 与 88px 容器的 2x 视网膜清晰度匹配
+        const avatar = document.getElementById('avatarImg');
+        const url = `https://github.com/${GH_USER}.png?size=${size}`;
+        avatar.src = url;
+        avatar.addEventListener('error', () => {
+          // 如果加载失败，回退为首字母
+          const wrap = avatar.parentElement;
+          avatar.remove();
+          wrap.textContent = 'MW';
+          wrap.setAttribute('aria-label', 'Avatar fallback');
+        });
+      })();
+          // ---- Resume i18n + Router ----
+      const i18n = {
+        zh: {
+          name: '王羽丰',
+          title: '无线通信与信号处理 / 数字电路',
+          meta: '苏州 · China · a55ume@qq.com · GitHub/BlackWatch0',
+          sections: {
+            contact: {
+              title: '联系方式',
+              items: [
+                '邮箱：a55ume@qq.com',
+                'GitHub：github.com/BlackWatch0',
+                'LinkedIn：linkedin.com/in/michael-wang-830975296',
+              ]
+            },
+            skills: {
+              title: '技能',
+              items: [
+                '编程：Python，C/C++，SystemVerilog/Verilog',
+                '工具：Vivado 2019.2，Verilator，Git，Linux',
+                '领域：DSP，FPGA，加速器设计（Winograd 卷积），AXI4，总线与存储子系统',
+              ]
+            },
+            summary: {
+              title: '简介',
+              items: [
+                'EEE 背景，专注 DSP/FPGA 加速与系统集成，具备从算法到硬件落地的完整链路能力。',
+                '主导实现基于 Winograd 的矩阵卷积加速器（FP16），完成 RTL 设计、时序优化与在 Xilinx FPGA 上部署。',
+                '熟悉 AXI Master/AXI4-Lite 接口，完成与定制 AXI 从设备（DDR 模拟）的仿真联调与 Python 自动化测试。'
+              ]
+            },
+            exp: {
+              title: '经历',
+              items: [
+                'RoboVigor 机器人团队 · 算法组成员：负责机器视觉与部署调试，组织周报与新人培训。',
+                '城市绿色能源规划（与 ARUP 合作）· 参与 SHIPs 项目，探索城市碳中和与能源自给方案。'
+              ]
+            },
+            edu: {
+              title: '教育',
+              items: [
+                'University of Bristol · MSc Wireless Communication & Signal Processing（在读/拟入学）',
+                'University of Sheffield · 电子与电气工程学士（BEng，荣誉 2:1）— 已毕业'
+              ]
+            },
+            proj: {
+              title: '项目',
+              items: [
+                'FPGA Winograd 卷积加速器：窗口移动法数据复用；CSE 优化与四级流水；AXI Master + AXI4-Lite 控制；集成至 RVFPGA 平台。',
+                '4-bit 微处理器：指令集与 RTL 设计、仿真与小型 SoC 原型。',
+                'AXI 自定义 DDR 从设备（仿真）：基于 Verilator 搭建 Python 自动化测试框架。'
+              ]
+            }
+          },
+          ui: { pdf: '下载 PDF', back: '返回主页', lang: '中文 / EN' }
+        },
+        en: {
+          name: 'Michael Wang',
+          title: 'Wireless Communication & Signal Processing · Digital Design',
+          meta: 'Suzhou · China · a55ume@qq.com · GitHub/BlackWatch0',
+          sections: {
+            contact: {
+              title: 'Contact',
+              items: [
+                'Email: a55ume@qq.com',
+                'GitHub: github.com/BlackWatch0',
+                'LinkedIn: linkedin.com/in/michael-wang-830975296',
+              ]
+            },
+            skills: {
+              title: 'Skills',
+              items: [
+                'Programming: Python, C/C++, SystemVerilog/Verilog',
+                'Tools: Vivado 2019.2, Verilator, Git, Linux',
+                'Domains: DSP, FPGA, Accelerator (Winograd), AXI4, Memory & Bus systems',
+              ]
+            },
+            summary: {
+              title: 'Summary',
+              items: [
+                'EEE background focusing on DSP/FPGA acceleration and system integration, bridging algorithms to hardware.',
+                'Led an FP16 Winograd-based convolution accelerator from RTL to timing closure and on-board deployment on Xilinx FPGA.',
+                'Experienced with AXI Master/AXI4-Lite; built simulation with a custom AXI DDR slave and Python-based automation.'
+              ]
+            },
+            exp: {
+              title: 'Experience',
+              items: [
+                'RoboVigor Robotics Team · Algorithms: computer vision, deployment & debugging; organized weekly reports and onboarding.',
+                'Urban Green Energy Planning (with ARUP) · SHIPs project: explored net-zero and local energy solutions.'
+              ]
+            },
+            edu: {
+              title: 'Education',
+              items: [
+                'University of Bristol · MSc Wireless Communication & Signal Processing (incoming/enrolled)',
+                'University of Sheffield · BEng (Hons) Electrical & Electronic Engineering — 2:1 (Upper Second Class), Graduated'
+              ]
+            },
+            proj: {
+              title: 'Projects',
+              items: [
+                'FPGA Winograd Convolution Accelerator: window-sliding data reuse; CSE optimization & 4-stage pipeline; AXI Master + AXI4-Lite; integrated with RVFPGA.',
+                '4-bit Microprocessor: ISA + RTL, simulation, and a small SoC prototype.',
+                'Custom AXI DDR Slave (simulation): Verilator-based system with Python automation.'
+              ]
+            }
+          },
+          ui: { pdf: 'Download PDF', back: 'Back to Home', lang: '中文 / EN' }
+        }
+      };
+
+      function detectLang(){
+        const saved = localStorage.getItem('lang');
+        if(saved) return saved;
+        const n = navigator.languages && navigator.languages.length ? navigator.languages[0] : navigator.language || 'en';
+        return /^zh/i.test(n) ? 'zh' : 'en';
+      }
+      function setLang(lang){ localStorage.setItem('lang', lang); renderResume(); }
+
+      function fillList(el, arr){ el.innerHTML = arr.map(x=>`<li>${x}</li>`).join(''); }
+      function renderResume(){
+        const lang = detectLang();
+        const d = i18n[lang];
+        document.getElementById('r-name').textContent = d.name;
+        document.getElementById('r-title').textContent = d.title;
+        document.getElementById('r-meta').innerHTML = d.meta.replace('github.com/BlackWatch0', '<a href="https://github.com/BlackWatch0" target="_blank" rel="noopener">github.com/BlackWatch0</a>');
+        document.getElementById('r-contact-title').textContent = d.sections.contact.title;
+        fillList(document.getElementById('r-contact'), d.sections.contact.items);
+        document.getElementById('r-skills-title').textContent = d.sections.skills.title;
+        fillList(document.getElementById('r-skills'), d.sections.skills.items);
+        document.getElementById('r-summary-title').textContent = d.sections.summary.title;
+        fillList(document.getElementById('r-summary'), d.sections.summary.items);
+        document.getElementById('r-exp-title').textContent = d.sections.exp.title;
+        fillList(document.getElementById('r-exp'), d.sections.exp.items);
+        document.getElementById('r-edu-title').textContent = d.sections.edu.title;
+        fillList(document.getElementById('r-edu'), d.sections.edu.items);
+        document.getElementById('r-proj-title').textContent = d.sections.proj.title;
+        fillList(document.getElementById('r-proj'), d.sections.proj.items);
+        document.getElementById('langBtn').textContent = d.ui.lang;
+        const pb = document.getElementById('printBtn'); if(pb) pb.textContent = d.ui.pdf;
+        const bb = document.getElementById('backBtn'); if(bb) bb.textContent = d.ui.back;
+      }
+
+      function openResume(pref){ if(pref) localStorage.setItem('lang', pref); location.hash = '#/resume'; }
+      function closeResume(){ location.hash = '#/home'; }
+      function router(){
+        const showResume = location.hash.startsWith('#/resume');
+        document.getElementById('homeCard').hidden = showResume;
+        document.getElementById('resumeCard').hidden = !showResume;
+        if(showResume){ renderResume(); }
+      }
+      window.addEventListener('hashchange', router);
+      router();
+      document.getElementById('langBtn').addEventListener('click', ()=> setLang(detectLang()==='zh'?'en':'zh'));
+
+    </script>
+  </body>
+</html>
+
           --text: #111;
           --muted: #4a5568;
           --chip-bg: rgba(0, 0, 0, 0.06);
